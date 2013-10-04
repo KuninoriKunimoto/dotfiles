@@ -45,7 +45,6 @@ bindkey "^N" history-beginning-search-forward-end
 export LSCOLORS=Exfxcxdxbxegedabagacad
 # 補完時の色の設定
 export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-# ZLS_COLORSとは？
 export ZLS_COLORS=$LS_COLORS
 # lsコマンド時、自動で色がつく(ls -Gのようなもの？)
 export CLICOLOR=true
@@ -89,14 +88,16 @@ kterm*|xterm*|)
   ;;
 esac
 
-# export PATH=$PATH:/Applications/android-sdk-macosx/tools:~/.rvm/gems/ruby-2.0.0-p0@ec_shark/bin
-
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-# User specific aliases and functions
 # Import virtualenvwrapper
 # if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 #   export WORKON_HOME=$HOME/.virtualenvs
 #   source /usr/local/bin/virtualenvwrapper.sh
 # fi
+
+alias la="ls -a"
+alias ll="ls -al"
+alias du="du -h"
+alias df="df -h"
