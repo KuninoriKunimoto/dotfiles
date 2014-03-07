@@ -37,7 +37,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#242424 ctermbg=yellow
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#262626 ctermbg=black
 augroup END
 
-"ウィンドウタイトル「Thanks for flying Vim」防止
+"ウィンドウタイトル削除
 set notitle
 
 " Python向けインデント設定
@@ -59,6 +59,7 @@ let g:indent_guides_auto_colors = 0
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" 各種プラグイン
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
@@ -79,12 +80,17 @@ Bundle 'git://github.com/nvie/vim-flake8.git'
 Bundle 'git://github.com/nvie/vim-pyflakes.git'
 Bundle 'pangloss/vim-javascript'
 Bundle 'hail2u/vim-css3-syntax'
+Bundle 'skammer/vim-css-color'
 Bundle 'JavaScript-syntax'
+Bundle 'othree/html5.vim'
 Bundle 'pangloss/vim-javascript'
 Bundle 'skwp/vim-rspec'
 Bundle 'Rykka/riv.vim' 
 Bundle 'ngmy/vim-rubocop'
 Bundle 'cakebaker/scss-syntax.vim'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'hokaccha/vim-html5validator'
+Bundle 'scrooloose/syntastic'
 
 filetype plugin indent on
 
@@ -141,7 +147,6 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 let g:neocomplcache_force_overwrite_completefunc = 1
 " neocomplcache設定ここまで
 
-" Rubocop用設定(バージョンごとにパス変更)
+" Rubocop用設定
 " let vimrubocop_config='~/.rvm/gems/ruby-2.0.0-p0@ec_shark/gems/rubocop-0.7.2/.rubocop.yml'
 " nmap <F7> :RuboCop
-" Rubocop設定ここまで
