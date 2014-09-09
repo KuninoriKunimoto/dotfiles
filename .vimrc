@@ -50,6 +50,11 @@ autocmd Filetype html setlocal ts=2 sts=2 sw=2
 autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 
+" vimにcoffeeファイルタイプを認識させる
+au BufRead,BufNewFile,BufReadPre *.coffee set filetype=coffee
+" " インデントを設定
+autocmd FileType coffee setlocal sw=2 sts=2 ts=2 et
+
 "vim立ち上げ時に自動的にvim-indent-guidesをオン
 let g:indent_guides_enable_on_vim_startup = 1
 "autoで色付けするのはストップ
@@ -78,8 +83,6 @@ Bundle 'Shougo/unite.vim'
 Bundle 'git://github.com/nvie/vim-pep8.git'
 Bundle 'git://github.com/nvie/vim-flake8.git'
 Bundle 'git://github.com/nvie/vim-pyflakes.git'
-Bundle 'pangloss/vim-javascript'
-Bundle 'hail2u/vim-css3-syntax'
 Bundle 'skammer/vim-css-color'
 Bundle 'JavaScript-syntax'
 Bundle 'othree/html5.vim'
@@ -91,6 +94,7 @@ Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'hokaccha/vim-html5validator'
 Bundle 'scrooloose/syntastic'
+Bundle 'kchmck/vim-coffee-script'
 
 filetype plugin indent on
 
@@ -147,6 +151,6 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 let g:neocomplcache_force_overwrite_completefunc = 1
 " neocomplcache設定ここまで
 
-" Rubocop用設定
-" let vimrubocop_config='~/.rvm/gems/ruby-2.0.0-p0@ec_shark/gems/rubocop-0.7.2/.rubocop.yml'
-" nmap <F7> :RuboCop
+let g:syntastic_mode_map = { 'mode': 'passive',
+            \ 'active_filetypes': ['ruby'] }
+let g:syntastic_ruby_checkers = ['rubocop']
