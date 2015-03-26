@@ -120,3 +120,6 @@ precmd () {
   [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
 RPROMPT="%1(v|%F{green}%1v%f|)"
+
+source ~/.nvm/nvm.sh
+nvm use v0.10.33

@@ -1,156 +1,289 @@
-"新しい行のインデントを現在行と同じに
-set autoindent
-"Vi互換をオフ
+" vi 互換ではなくVim のデフォルト設定にする
 set nocompatible
-"タブの代わりに空白文字を挿入する
-set expandtab
-"インクリメンタルサーチ
-set incsearch
-"行番号を表示
-set number
-"閉じ括弧が入力されたとき、対応する括弧を表示
-set showmatch
-"検索時に大文字を含んでいたら大/小を区別
-set smartcase
-"新しい行を作ったときに高度な自動インデントを行う
-set smartindent
-"行頭の余白内でTab を打ち込むと'shiftwidth' の数だけインデント
-set smarttab
-"ファイル内が対応する空白の数
-set tabstop=4
-"検索をファイルの先頭へループしない
-set nowrapscan
-"入力モード時、ステータスラインのカラーを変更
-syntax enable
-" カラー設定(solarized使用)
-set background=dark
-colorscheme solarized
-" レジスタを指定せずにコピー/ペーストを行なった場合は クリップボードを利用
-set clipboard=unnamed,autoselect
-" バックアップファイルを作らない
-set nobk
-
-"入力モード時、ステータスラインのカラーを変更
-augroup InsertHook
-autocmd!
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#242424 ctermbg=yellow
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#262626 ctermbg=black
-augroup END
-
-"ウィンドウタイトル削除
-set notitle
-
-" Python向けインデント設定
-autocmd FileType python setl autoindent
-autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python setl expandtab tabstop=8 shiftwidth=4 softtabstop=4
-
-" その他のインデント設定
-autocmd Filetype html setlocal ts=2 sts=2 sw=2
-autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
-autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
-
-" vimにcoffeeファイルタイプを認識させる
-au BufRead,BufNewFile,BufReadPre *.coffee set filetype=coffee
-" " インデントを設定
-autocmd FileType coffee setlocal sw=2 sts=2 ts=2 et
-
-"vim立ち上げ時に自動的にvim-indent-guidesをオン
-let g:indent_guides_enable_on_vim_startup = 1
-"autoで色付けするのはストップ
-let g:indent_guides_auto_colors = 0
-
-" Vundle設定
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" 各種プラグイン
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'tpope/vim-rails.git'
-Bundle 'L9'
-Bundle 'FuzzyFinder'
-Bundle 'git://git.wincent.com/command-t.git'
-Bundle 'The-NERD-tree'
-Bundle 'The-NERD-Commenter'
-Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'git://github.com/Shougo/vimproc'
-Bundle 'git://github.com/Shougo/vimshell'
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/unite.vim'
-Bundle 'git://github.com/nvie/vim-pep8.git'
-Bundle 'git://github.com/nvie/vim-flake8.git'
-Bundle 'git://github.com/nvie/vim-pyflakes.git'
-Bundle 'skammer/vim-css-color'
-Bundle 'JavaScript-syntax'
-Bundle 'othree/html5.vim'
-Bundle 'pangloss/vim-javascript'
-Bundle 'skwp/vim-rspec'
-Bundle 'Rykka/riv.vim' 
-Bundle 'ngmy/vim-rubocop'
-Bundle 'cakebaker/scss-syntax.vim'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'hokaccha/vim-html5validator'
-Bundle 'scrooloose/syntastic'
-Bundle 'kchmck/vim-coffee-script'
-
-filetype plugin indent on
-
-"NERDTreeのキーバインド 
-nmap <F9> :NERDTreeToggle
-"VimShellのキーバインド 
-nmap <F8> :VimShell
-
-" neocomplcache設定
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
+" 一旦ファイルタイプ関連を無効化
+filetype off
+" neobundleでプラグインを管理
+if has('vim_starting')
+set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+call neobundle#end()
+NeoBundle 'Shougo/neobundle.vim'
+" 以下のプラグインをバンドル
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'VimClojure'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'jpalardy/vim-slime'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'mattn/emmet-vim'
+NeoBundle 'open-browser.vim'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'tell-k/vim-browsereload-mac'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'taichouchou2/html5.vim'
+NeoBundle 'taichouchou2/vim-javascript'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'tpope/vim-endwise.git' 
+NeoBundle 'ruby-matchit'
+NeoBundle 'vim-scripts/dbext.vim'
+NeoBundle 'taichouchou2/vim-rsense'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'taichouchou2/vim-rails'
+NeoBundle 'romanvbabenko/rails.vim'
+NeoBundle 'ujihisa/unite-rake'
+NeoBundle 'basyura/unite-rails'
+NeoBundle 'thinca/vim-ref'
+NeoBundle 'taichouchou2/vim-ref-ri'
+NeoBundle 'taq/vim-rspec'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'Lokaltog/powerline'
+" シンタックス系プラグインをバンドル
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+" 実行プラグインをバンドル
+NeoBundle 'thinca/vim-quickrun'
+" 編集履歴管理
+NeoBundle "sjl/gundo.vim"
+set t_Co=256
+" ファイラー関連
+nnoremap <Leader>e :VimFilerExplorer<CR>
+nnoremap <Leader>g :GundoToggle<CR>
+let g:vimfiler_enable_auto_cd = 1
+let g:vimfiler_as_default_explorer = 1
+"mru,reg,buf
+noremap :um :Unite file_mru -buffer-name=file_mru
+noremap :ur :Unite register -buffer-name=register
+noremap :ub :Unite buffer -buffer-name=buffer
+nnoremap <C-u>m  :Unite file_mru<CR>
+" 環境設定系
+" シンタックスハイライト
+syntax on
+" エンコード
+set encoding=utf8
+" ファイルエンコード
+set fileencoding=utf-8
+" スクロールする時に下が見えるようにする
+set scrolloff=5
+" .swapファイルを作らない
+set noswapfile
+" バックアップファイルを作らない
+set nowritebackup
+" バックアップをしない
+set nobackup
+" バックスペースで各種消せるようにする
+set backspace=indent,eol,start
+" ビープ音を消す
+set vb t_vb=
+set novisualbell
+" OSのクリップボードを使う
+set clipboard+=unnamed
+set clipboard=unnamed
+" 不可視文字を表示
+set list
+" 行番号を表示
+set number
+" 右下に表示される行・列の番号を表示する
+set ruler
+" compatibleオプションをオフにする
+set nocompatible
+" 移動コマンドを使ったとき、行頭に移動しない
+set nostartofline
+" 対応括弧に<と>のペアを追加
+set matchpairs& matchpairs+=<:>
+" 対応括弧をハイライト表示する
+set showmatch
+" 対応括弧の表示秒数を3秒にする
+set matchtime=3
+" ウィンドウの幅より長い行は折り返され、次の行に続けて表示される
+set wrap
+" 入力されているテキストの最大幅を無効にする
+set textwidth=0
+" 不可視文字を表示
+set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
+" インデントをshiftwidthの倍数に丸める
+set shiftround
+" 補完の際の大文字小文字の区別しない
+set infercase
+" 文字がない場所にもカーソルを移動できるようにする
+set virtualedit=all
+" 変更中のファイルでも、保存しないで他のファイルを表示
+set hidden
+" 新しく開く代わりにすでに開いてあるバッファを開く
+set switchbuf=useopen
+" 小文字の検索でも大文字も見つかるようにする
+set ignorecase
+" ただし大文字も含めた検索の場合はその通りに検索する
+set smartcase
+" インクリメンタルサーチを行う
+set incsearch
+" 検索結果をハイライト表示
+:set hlsearch
+" コマンド、検索パターンを10000個まで履歴に残す
+set history=10000
+" マウスモード有効
+set mouse=a
+" xtermとscreen対応
+set ttymouse=xterm2
+" コマンドを画面最下部に表示する
+set showcmd
 
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplcache#smart_close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+" w!! でスーパーユーザーとして保存（sudoが使える環境限定）
+cmap w!! w !sudo tee > /dev/null %
+" 入力モード中に素早くJJと入力した場合はESCとみなす
+inoremap jj <Esc>
+" ESCを二回押すことでハイライトを消す
+nmap <silent> <Esc><Esc> :nohlsearch<CR>
+" カーソル下の単語を * で検索
+vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v, '\/'), "\n", '\\n', 'g')<CR><CR>
+" 検索後にジャンプした際に検索単語を画面中央に持ってくる
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+" j, k による移動を折り返されたテキストでも自然に振る舞うように変更
+nnoremap j gj
+nnoremap k gk
+" vを二回で行末まで選択
+vnoremap v $h
+" TABにて対応ペアにジャンプ
+nnoremap &lt;Tab&gt; %
+vnoremap &lt;Tab&gt; %
+" Ctrl + hjkl でウィンドウ間を移動
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" Shift + 矢印でウィンドウサイズを変更
+nnoremap <S-Left>  <C-w><<CR>
+nnoremap <S-Right> <C-w><CR>
+nnoremap <S-Up>    <C-w>-<CR>
+nnoremap <S-Down>  <C-w>+<CR>
+" T + ? で各種設定をトグル
+nnoremap [toggle] <Nop>
+nmap T [toggle]
+nnoremap <silent> [toggle]s :setl spell!<CR>:setl spell?<CR>
+nnoremap <silent> [toggle]l :setl list!<CR>:setl list?<CR>
+nnoremap <silent> [toggle]t :setl expandtab!<CR>:setl expandtab?<CR>
+nnoremap <silent> [toggle]w :setl wrap!<CR>:setl wrap?<CR>
+ 
+" :e などでファイルを開く際にフォルダが存在しない場合は自動作成
+function! s:mkdir(dir, force)
+  if !isdirectory(a:dir) && (a:force ||
+        \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+  endif
 endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
-" Close popup by <Space>.
-let g:neocomplcache_force_overwrite_completefunc = 1
-" neocomplcache設定ここまで
+ 
+" vim 起動時のみカレントディレクトリを開いたファイルの親ディレクトリに指定 
+function! s:ChangeCurrentDir(directory, bang)
+    if a:directory == ''
+        lcd %:p:h
+    else
+        execute 'lcd' . a:directory
+    endif
+ 
+    if a:bang == ''
+        pwd
+    endif
+endfunction
+ 
+" ~/.vimrc.localが存在する場合のみ設定を読み込む
+let s:local_vimrc = expand('~/.vimrc.local')
+if filereadable(s:local_vimrc)
+    execute 'source ' . s:local_vimrc
+endif
+ 
+" /{pattern}の入力中は「/」をタイプすると自動で「\/」が、
+" ?{pattern}の入力中は「?」をタイプすると自動で「\?」が 入力されるようになる
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
+if has('unnamedplus')
+    set clipboard& clipboard+=unnamedplus
+else
+    set clipboard& clipboard+=unnamed,autoselect
+endif
+ 
+"表示行単位で行移動する
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+"インサートモードでも移動
+inoremap <c-d> <delete>
+inoremap <c-j> <down>
+inoremap <c-k> <up>
+inoremap <c-h> <left>
+inoremap <c-l> <right>
+"画面切り替え
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+nnoremap <c-h> <c-w>h
+"<space>j, <space>kで画面送り
+noremap [Prefix]j <c-f><cr><cr>
+noremap [Prefix]k <c-b><cr><cr>
+ 
+" Java用設定
+"SQLのJava文字リテラルへの整形(:Sqltoj, :Sqlfromj)
+function! SQLToJava()
+%s/^\(.\+\)$/"\1 " \+/g
+normal G$
+execute "normal ?+\&lt;CR&gt;"
+normal xxggVG
+echo "Convert to Java String is finished."
+endfunction
+command! Sqltoj :call SQLToJava()
+function! SQLFromJava()
+%s/^"\(.\+\) " *+*$/\1/g
+normal ggVG
+echo "Convert from Java String is finished."
+endfunction
+command! Sqlfromj :call SQLFromJava()
+ 
+" Ruby用設定
+" :makeでRuby構文チェック
+au FileType ruby setlocal makeprg=ruby\ -c\ %
+au FileType ruby setlocal errorformat=%m\ in\ %f\ on\ line\ %l
+ 
+" Scala用設定
+" ファイルタイプの追加
+augroup filetypedetect
+autocmd! BufNewFile,BufRead *.scala setfiletype scala
+autocmd! BufNewFile,BufRead *.sbt setfiletype scala
+augroup END
+autocmd BufWritePost *.php silent make | if len(getqflist()) != 1 | copen | else | cclose | endif
+ 
+" 行末、行の最初への移動のキーマップ設定
+:map! <C-e> <Esc>$a
+:map! <C-a> <Esc>^a
+:map <C-e> <Esc>$a
+:map <C-a> <Esc>^a
+ 
+" Ctrl+dで$、Ctrl+aで@
+inoremap <C-d> $
+inoremap <C-a> @
+ 
+" \ + rでスクリプト実行
+nmap <Leader>r <plug>(quickrun)
+ 
+" 全角スペースのハイライトを設定
+function! ZenkakuSpace()
+  highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
+endfunction
 
-let g:syntastic_mode_map = { 'mode': 'passive',
-            \ 'active_filetypes': ['ruby'] }
-let g:syntastic_ruby_checkers = ['rubocop']
+if has('syntax')
+  augroup ZenkakuSpace
+    autocmd!
+    " ZenkakuSpaceをカラーファイルで設定するなら次の行は削除
+    autocmd ColorScheme       * call ZenkakuSpace()
+    " 全角スペースのハイライト指定
+    autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+  augroup END
+  call ZenkakuSpace()
+endif
